@@ -17,7 +17,7 @@ after_success:
   # Log in to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push all that to Docker hub
-  - docker push ubermensch01/multi-client ./client
-  - docker push ubermensch01/multi-nginx ./nginx
-  - docker push ubermensch01/multi-server ./server
-  - docker push ubermensch01/multi-worker ./worker
+  - docker push ubermensch01/multi-client
+  - docker push ubermensch01/multi-nginx
+  - docker push ubermensch01/multi-server
+  - docker push ubermensch01/multi-worker
