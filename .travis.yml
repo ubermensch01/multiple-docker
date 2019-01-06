@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ubermensch01/multiple-docker -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run ubermensch01/multiple-docker npm test -- --coverage
+
+after_success:
+  - docker build -t ubermensch01/multi-client ./client
+  - docker build -t ubermensch01/multi-nginx ./nginx
+  - docker build -t ubermensch01/multi-server ./server
+  - docker build -t ubermensch01/multi-worker ./worker
+
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push all that to Docker hub
+  - docker push ubermensch01/multi-client ./client
+  - docker push ubermensch01/multi-nginx ./nginx
+  - docker push ubermensch01/multi-server ./server
+  - docker push ubermensch01/multi-worker ./worker
